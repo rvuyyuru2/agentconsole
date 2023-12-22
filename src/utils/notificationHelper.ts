@@ -1,11 +1,13 @@
 import messaging from '@react-native-firebase/messaging';
-import {GetString, SetKey} from './storage';
+import {GetKey, GetString, SecureStorage, SetKey} from './storage';
 import {Alert, PermissionsAndroid} from 'react-native';
+import {InitialNotification} from '../Constants';
 var webview: any;
 export function updateWebview(ref: any) {
   webview = ref;
 }
 function getInjectableJSMessage(message: any) {
+  SecureStorage.delete(InitialNotification);
   return `
     (function() {   
       window.document.dispatchEvent(new MessageEvent('pushNotification', {
@@ -16,7 +18,8 @@ function getInjectableJSMessage(message: any) {
   `;
 }
 export async function messagehandler(remoteMessage: any) {
-  console.log(remoteMessage);
+  console.log('remoteMessage', remoteMessage);
+  SecureStorage.set(InitialNotification, JSON.stringify(remoteMessage));
 }
 
 const handeleRoute = async (obj: any) => {
@@ -25,7 +28,7 @@ const handeleRoute = async (obj: any) => {
       webview?.injectJavaScript(getInjectableJSMessage(obj));
       clearInterval(intervel);
     }
-  }, 5);
+  }, 1);
 };
 // // Register background handler
 export function setBackgroundMessageHandler() {
@@ -39,6 +42,16 @@ export function intitonMessage() {
     // messagehandler(remoteMessage);
     handeleRoute(remoteMessage?.data);
   });
+}
+export function notificationHandler() {
+  const isNotificationinstorage = GetKey(InitialNotification);
+
+  if (isNotificationinstorage) {
+    const remoteMessage = JSON.parse(isNotificationinstorage);
+    handeleRoute(remoteMessage?.data);
+    // return;
+  }
+  console.log('running');
 }
 export function listenHandler(setLoading: any) {
   // Assume a message-notification contains a "type" property in the data payload of the screen to open
@@ -55,25 +68,11 @@ export function listenHandler(setLoading: any) {
       setLoading(false);
     });
 }
-
-// export async function requestUserPermission() {
-//   const authStatus = await messaging().requestPermission();
-//   PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
-//   const enabled =
-//     authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-//     authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-//   return !!enabled;
-// }
-
 export async function requestUserPermission() {
   try {
     // Request permission for Firebase Cloud Messaging
     await messaging().requestPermission();
     // Check if the permission is granted or provisional
-    // const enabled =
-    //   authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-    //   authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-
     let notificationPermission: any = await PermissionsAndroid.check(
       PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
     );

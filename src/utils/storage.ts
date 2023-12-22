@@ -14,7 +14,11 @@ function GetString(key: string) {
     return SecureStorage.getString(key);
   } catch (error) {}
 }
-
+function GetKey(key) {
+  try {
+    return SecureStorage.getString(key);
+  } catch (error) {}
+}
 /**
  *
  * @param key
@@ -37,4 +41,4 @@ async function clearAll() {
   } catch (error) {}
 }
 
-export {SecureStorage, deleteKey, clearAll, SetKey, GetString};
+export {SecureStorage, GetKey, deleteKey, clearAll, SetKey, GetString};

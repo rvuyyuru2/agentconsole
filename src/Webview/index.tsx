@@ -10,11 +10,7 @@ const OzonetelView = (props: any) => {
   useEffect(() => {
     const fetchData = async () => {
       const fcmtoken = await getFCMToken();
-      INJECTED_JAVASCRIPT = `window.localStorage.setItem("fcmtoken", '${fcmtoken}');;
-        const loginDetails =  window.localStorage.getItem("loginDetails");           
-        if(!!loginDetails){
-          sessionStorage.setItem("isLoggedIn","true");
-        }        
+      INJECTED_JAVASCRIPT = `window.localStorage.setItem("fcmtoken", '${fcmtoken}');           
         true;       
       `;
       setIstokenLoaded(true);
@@ -57,8 +53,6 @@ const OzonetelView = (props: any) => {
         if (webViewRef?.current) {
           props?.UpdateWebView(webViewRef?.current);
         }
-        //reply the message
-        // webViewRef.current.postMessage(JSON.stringify({reply: 'reply'}));
       }}
       startInLoadingState={true}
       source={{
