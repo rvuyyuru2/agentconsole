@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "491769271965",
+    "project_id": "samaaoda-66ea4",
+    "storage_bucket": "samaaoda-66ea4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:491769271965:android:2f1d177a673d6adb98a674",
+        "android_client_info": {
+          "package_name": "com.agentconsole"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBklzWqlMVLX-WJLVJx52_MPgnhDup5q8Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
