@@ -18,7 +18,7 @@ function getInjectableJSMessage(message: any) {
   `;
 }
 export async function messagehandler(remoteMessage: any) {
-  console.log('remoteMessage', remoteMessage);
+  // console.log('remoteMessage', remoteMessage);
   SecureStorage.set(InitialNotification, JSON.stringify(remoteMessage));
 }
 
@@ -51,7 +51,7 @@ export function notificationHandler() {
     handeleRoute(remoteMessage?.data);
     // return;
   }
-  console.log('running');
+  // console.log('running');
 }
 export function listenHandler(setLoading: any) {
   // Assume a message-notification contains a "type" property in the data payload of the screen to open
@@ -92,7 +92,7 @@ export async function requestUserPermission() {
       return true; // Permission granted
     } else {
       // Permission denied again, handle this as needed (e.g., show a message to the user)
-      console.log('Notification permission denied again');
+      // console.log('Notification permission denied again');
       showRetryPermissionAlert();
       return false;
     }
